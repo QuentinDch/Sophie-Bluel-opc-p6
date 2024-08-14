@@ -13,14 +13,19 @@ async function fetchGalleryData() {
 
     for (let i = 0; i < galleryData.length; i++) {
       const project = galleryData[i];
+
       let worksFigElement = document.createElement("figure");
-      galleryDivElement.appendChild(worksFigElement);
+      worksFigElement.id = `project-${project.id}`;
+
       let worksImgElement = document.createElement("img");
-      worksFigElement.appendChild(worksImgElement);
       worksImgElement.src = project.imageUrl;
+      worksImgElement.alt = project.title;
+
       let worksFigcaptionElement = document.createElement("figcaption");
       worksFigcaptionElement.textContent = project.title;
-      worksFigElement.appendChild(worksFigcaptionElement);
+
+      galleryDivElement.appendChild(worksFigElement);
+      worksFigElement.append(worksImgElement, worksFigcaptionElement);
     }
   } catch (error) {
     console.error(error.message);
@@ -28,3 +33,20 @@ async function fetchGalleryData() {
 }
 
 fetchGalleryData();
+
+async function fetchCategoriesGalleryData() {
+  const categoriesGalleryUrl = "http://localhost:5678/api/categories";
+  try {
+    const response = await fetch(categoriesGalleryUrl);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    const categoriesData = await response.json();
+    console.log(categoriesData);
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+fetchCategoriesGalleryData();
