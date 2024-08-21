@@ -53,9 +53,35 @@ async function fetchCategoriesGalleryData() {
 
     const categoriesData = await response.json();
     console.log(categoriesData);
+
+    const categoriesDivElement = document.querySelector(".categories");
+
+    categoriesData.forEach((filter) => {
+      const filterButton = createButtonElement(filter);
+      categoriesDivElement.appendChild(filterButton);
+    });
   } catch (error) {
-    console.error(error.message);
+    console.error("Error fetching categories data:", error.message);
   }
+}
+
+function createButtonElement(filter) {
+  const buttonElement = document.createElement("button");
+  buttonElement.classList.add("categories__items");
+  buttonElement.id = `project-${filter.id}`;
+
+  buttonElement.setAttribute("aria-pressed", "false");
+  buttonElement.setAttribute(
+    "aria-label",
+    `Afficher les éléments pour ${filter.name}`
+  );
+
+  const spanElement = document.createElement("span");
+  spanElement.textContent = filter.name;
+
+  buttonElement.appendChild(spanElement);
+
+  return buttonElement;
 }
 
 fetchCategoriesGalleryData();

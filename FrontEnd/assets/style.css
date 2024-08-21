@@ -127,6 +127,9 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+button {
+  background: none;
+}
 /** end reset css**/
 body {
   max-width: 1140px;
@@ -222,7 +225,6 @@ li:hover {
   gap: 0.5rem;
   padding-top: 2rem;
   padding-bottom: 3rem;
-  /* outline: 1px solid red; */
 }
 
 .categories__items {
