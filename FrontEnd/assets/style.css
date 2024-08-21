@@ -133,6 +133,7 @@ body {
   margin: auto;
   font-family: "Work Sans";
   font-size: 14px;
+  padding: 0 20px;
 }
 header {
   display: flex;
@@ -181,6 +182,13 @@ li:hover {
   display: flex;
   align-items: center;
 }
+
+@media (max-width: 768px) {
+  #introduction {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
 #introduction figure {
   flex: 1;
 }
@@ -226,6 +234,7 @@ li:hover {
   border: 1px solid #1d6154;
   color: #1d6154;
   border-radius: 25px;
+  cursor: pointer;
 }
 
 .categories__items:first-child {
@@ -251,11 +260,22 @@ li:hover {
 /* categories style FIN */
 
 .gallery {
-  width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery {
+    grid-template-columns: 1fr;
+  }
 }
 
 .gallery img {
