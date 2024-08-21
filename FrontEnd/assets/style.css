@@ -172,10 +172,12 @@ nav ul {
   display: flex;
   align-items: center;
   list-style-type: none;
+  cursor: pointer;
 }
 nav li {
   padding: 0 10px;
   font-size: 1.2em;
+  transition: color 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 li:hover {
@@ -237,8 +239,12 @@ li:hover {
   color: #1d6154;
   border-radius: 25px;
   cursor: pointer;
+  transition: all 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
 }
-
+.categories__items:hover {
+  background-color: #1d6154;
+  color: #fff;
+}
 .categories__items:first-child {
   flex: 1;
 }
