@@ -1,6 +1,5 @@
-// Récupération des travaux depuis le back-end
-// Appel à l’API avec fetch afin de récupérer dynamiquement les projets
-// Ajout des travaux à la galerie
+// Script pour récupérer et afficher dynamiquement les projets dans la galerie.
+// Utilise l'API pour obtenir les données des projets et les affiche à l'aide d'éléments HTML dans la page.
 async function fetchGalleryData() {
   const worksApiUrl = "http://localhost:5678/api/works";
   try {
@@ -22,6 +21,16 @@ async function fetchGalleryData() {
     console.error("Error fetching gallery data:", error.message);
   }
 }
+
+/**
+ * Crée l'élément HTML "figure", pour afficher un projet dans la galerie.
+ *
+ * @param {Object} project - Le paramètre 'project' est un objet représentant le projet.
+ * @param {number} project.id - L'identifiant unique du projet.
+ * @param {string} project.imageUrl - L'URL de l'image du projet.
+ * @param {string} project.title - Le titre du projet.
+ * @returns {HTMLElement} L'élément HTML "figure" contenant l'image et le titre du projet.
+ */
 
 function createGalleryElement(project) {
   const worksFigElement = document.createElement("figure");
