@@ -69,6 +69,9 @@ async function fetchCategoriesGalleryData() {
       const filterButton = createButtonElement(filter);
       categoriesDivElement.appendChild(filterButton);
     });
+
+    // Appelle la fonction pour configurer les filtres après la création et ajout au DOM des boutons
+    setupCategoryFilters();
   } catch (error) {
     console.error("Error fetching categories data:", error.message);
   }
@@ -94,3 +97,20 @@ function createButtonElement(filter) {
 }
 
 fetchCategoriesGalleryData();
+
+//Configure les boutons de catégorie
+function setupCategoryFilters() {
+  const buttons = document.querySelectorAll(".categories__items");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      //Mise à jour de l'état actif
+      buttons.forEach((btn) => {
+        btn.setAttribute("aria-pressed", "false");
+        btn.classList.remove("active");
+      });
+      button.setAttribute("aria-pressed", "true");
+      button.classList.add("active");
+    });
+  });
+}
