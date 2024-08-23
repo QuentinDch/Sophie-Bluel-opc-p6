@@ -80,7 +80,7 @@ async function fetchCategoriesGalleryData() {
 function createButtonElement(filter) {
   const buttonElement = document.createElement("button");
   buttonElement.classList.add("categories__items");
-  buttonElement.id = `project-${filter.id}`;
+  buttonElement.id = filter.id;
 
   buttonElement.setAttribute("aria-pressed", "false");
   buttonElement.setAttribute(
@@ -98,19 +98,25 @@ function createButtonElement(filter) {
 
 fetchCategoriesGalleryData();
 
-//Configure les boutons de catégorie
+// Configure les boutons de catégorie
 function setupCategoryFilters() {
   const buttons = document.querySelectorAll(".categories__items");
+  console.log(buttons);
+  const gallery = document.querySelector(".gallery");
 
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
-      //Mise à jour de l'état actif
+      // Mise à jour de l'état actif et de l'aria
       buttons.forEach((btn) => {
         btn.setAttribute("aria-pressed", "false");
         btn.classList.remove("active");
       });
       button.setAttribute("aria-pressed", "true");
       button.classList.add("active");
+
+      const btnId = button.id;
+      console.log(btnId);
+      gallery.innerHTML = " ";
     });
   });
 }
