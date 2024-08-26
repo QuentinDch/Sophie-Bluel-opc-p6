@@ -1,3 +1,4 @@
+let galleryData = []; // Variable globale pour stocker les données des projets
 // Script pour récupérer et afficher dynamiquement les projets dans la galerie.
 // Utilise l'API pour obtenir les données des projets et les affiche à l'aide d'éléments HTML dans la page.
 async function fetchGalleryData() {
@@ -8,33 +9,31 @@ async function fetchGalleryData() {
       throw new Error(`Response status: ${response.status}`);
     }
 
-    const galleryData = await response.json();
+    galleryData = await response.json(); // Stocke les données dans la variable globale
     console.log(galleryData);
 
-    const galleryDivElement = document.querySelector(".gallery");
-
-    galleryData.forEach((project) => {
-      const worksFigElement = createGalleryElement(project);
-      galleryDivElement.appendChild(worksFigElement);
-    });
+    displayProjects(galleryData); // Affiche tous les projets par défaut
   } catch (error) {
     console.error("Error fetching gallery data:", error.message);
   }
 }
+fetchGalleryData();
 
-/**
- * Crée l'élément HTML "figure", pour afficher un projet dans la galerie.
- *
- * @param {Object} project - Le paramètre 'project' est un objet représentant le projet.
- * @param {number} project.id - L'identifiant unique du projet.
- * @param {string} project.imageUrl - L'URL de l'image du projet.
- * @param {string} project.title - Le titre du projet.
- * @returns {HTMLElement} L'élément HTML "figure" contenant l'image et le titre du projet.
- */
+// Fonction pour afficher les projets dans la galerie
+function displayProjects(projects) {
+  const galleryDivElement = document.querySelector(".gallery");
+  galleryDivElement.innerHTML = ""; // Efface le contenu existant
 
+  projects.forEach((project) => {
+    const worksFigElement = createGalleryElement(project);
+    galleryDivElement.appendChild(worksFigElement);
+  });
+}
+
+// Crée l'élément HTML "figure" pour afficher un projet dans la galerie
 function createGalleryElement(project) {
   const worksFigElement = document.createElement("figure");
-  worksFigElement.id = `project-${project.id}`;
+  worksFigElement.id = project.id;
 
   const worksImgElement = document.createElement("img");
   worksImgElement.src = project.imageUrl;
@@ -49,9 +48,7 @@ function createGalleryElement(project) {
   return worksFigElement;
 }
 
-fetchGalleryData();
-
-// Réalisation du filtre des travaux : Ajout des filtres pour afficher les travaux par catégorie
+// Récupère et affiche les catégories pour les filtres
 async function fetchCategoriesGalleryData() {
   const categoriesGalleryUrl = "http://localhost:5678/api/categories";
   try {
@@ -76,7 +73,9 @@ async function fetchCategoriesGalleryData() {
     console.error("Error fetching categories data:", error.message);
   }
 }
+fetchCategoriesGalleryData();
 
+// Crée un élément bouton pour chaque catégorie
 function createButtonElement(filter) {
   const buttonElement = document.createElement("button");
   buttonElement.classList.add("categories__items");
@@ -96,13 +95,9 @@ function createButtonElement(filter) {
   return buttonElement;
 }
 
-fetchCategoriesGalleryData();
-
 // Configure les boutons de catégorie
 function setupCategoryFilters() {
   const buttons = document.querySelectorAll(".categories__items");
-  console.log(buttons);
-  const gallery = document.querySelector(".gallery");
 
   buttons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -114,9 +109,17 @@ function setupCategoryFilters() {
       button.setAttribute("aria-pressed", "true");
       button.classList.add("active");
 
-      const btnId = button.id;
+      const btnId = parseInt(button.id, 10); // Convertir l'ID en nombre et plus en string
       console.log(btnId);
-      gallery.innerHTML = " ";
+
+      if (btnId === 0) {
+        displayProjects(galleryData);
+      } else {
+        const filteredProjects = galleryData.filter(
+          (project) => project.categoryId === btnId
+        );
+        displayProjects(filteredProjects);
+      }
     });
   });
 }

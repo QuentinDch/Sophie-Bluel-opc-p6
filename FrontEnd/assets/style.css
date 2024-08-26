@@ -130,6 +130,13 @@ table {
 button {
   background: none;
 }
+a {
+  text-decoration: none;
+  color: inherit;
+}
+html {
+  scroll-behavior: smooth;
+}
 /** end reset css**/
 body {
   max-width: 1140px;
