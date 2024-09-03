@@ -15,7 +15,14 @@ async function loginUser(email, password) {
       throw new Error(`Login failed with status: ${response.status}`);
     }
 
-    return await response.json();
+    const data = await response.json();
+
+    // Stock le token dans sessionStorage
+    if (data.token) {
+      sessionStorage.setItem("authToken", data.token);
+    }
+
+    return data;
   } catch (error) {
     console.error("Error during user login:", error.message);
   }
@@ -29,19 +36,18 @@ function setupFormHandler() {
   formElement.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const userEmail = emailInput.value;
-    const userPassword = passwordInput.value;
+    const emailInput = formElement.querySelector("#email").value;
+    const passwordInput = formElement.querySelector("#password").value;
 
     errorContainer.innerHTML = "";
 
-    // Appeler loginUser avec les valeurs du formulaire
+    // Appel loginUser avec les valeurs du formulaire
     try {
-      const userData = await loginUser(userEmail, userPassword);
-      if (userData) {
-        // Si userData est correct, rediriger vers index.html
+      const userData = await loginUser(emailInput, passwordInput);
+      if (userData && userData.token) {
+        // Si userData est correct et contient un token, redirection vers index.html
         window.location.href = "index.html";
+        console.log("User logged in successfully:", userData);
         return;
       }
 
