@@ -123,3 +123,24 @@ function setupCategoryFilters() {
     });
   });
 }
+
+function TokenVerification() {
+  const token = sessionStorage.getItem("authToken");
+  if (token) {
+    console.log("Utilisateur authentifié avec un token.");
+    const bannerEditElement = document.querySelector(".banner-edit");
+    const btnLog = document.getElementById("btnLog");
+
+    if (bannerEditElement) {
+      bannerEditElement.style.clipPath = "inset(0 0 0 0)";
+      btnLog.textContent = "logout";
+      btnLog.addEventListener("click", () => {
+        sessionStorage.removeItem("authToken");
+        window.location.href = "index.html";
+      });
+      return;
+    }
+  }
+  console.log("Utilisateur non authentifié. Aucun token trouvé.");
+}
+TokenVerification();
