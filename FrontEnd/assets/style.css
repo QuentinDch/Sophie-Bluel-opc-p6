@@ -221,6 +221,9 @@ li:hover {
 #introduction p {
   margin-bottom: 0.5em;
 }
+#portfolio {
+  position: relative;
+}
 #portfolio h2 {
   text-align: center;
   margin-bottom: 1em;
@@ -412,9 +415,10 @@ footer .small {
 
 /* loginPage style FIN */
 
-/* Styles pour la div bannière de modification */
+/* Styles pour la div bannière de modification DEBUT*/
 .banner-edit {
   position: fixed;
+  z-index: 999;
   inset: 0;
   height: 50px;
   width: 100%;
@@ -443,3 +447,36 @@ footer .small {
   left: -25%;
   transform: translateY(-50%);
 }
+/* Styles pour la div bannière de modification FIN */
+
+/* Styles pour la div contenant le button de modification DEBUT*/
+.btn-container {
+  position: absolute;
+  top: 0;
+  right: 30%;
+  transform: translateY(25%);
+}
+
+.btn-container button {
+  border: none;
+  cursor: pointer;
+}
+
+.btn-container button > span {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.42px;
+  font-family: "Work Sans";
+  position: relative;
+}
+
+.btn-container button > span::before {
+  position: absolute;
+  display: block;
+  content: "\f044";
+  font-family: "Font Awesome 6 Free";
+  top: 50%;
+  left: -50%;
+  transform: translate(50%, -50%);
+}
+/* Styles pour la div contenant le button de modification FIN*/

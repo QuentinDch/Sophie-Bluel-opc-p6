@@ -124,6 +124,7 @@ function setupCategoryFilters() {
   });
 }
 
+// Fonction d'authentification de connexion
 function TokenVerification() {
   const token = sessionStorage.getItem("authToken");
   if (token) {
@@ -133,11 +134,17 @@ function TokenVerification() {
 
     if (bannerEditElement) {
       bannerEditElement.style.clipPath = "inset(0 0 0 0)";
+
       btnLog.textContent = "logout";
       btnLog.addEventListener("click", () => {
         sessionStorage.removeItem("authToken");
-        window.location.href = "index.html";
       });
+
+      document.getElementById("portfolio").innerHTML += `
+      <div class="btn-container">
+        <button type="button"><span>modifier</span></button>
+      </div>
+      `;
       return;
     }
   }
