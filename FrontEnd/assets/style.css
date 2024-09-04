@@ -502,6 +502,7 @@ footer .small {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .modal-wrapper {
@@ -527,7 +528,7 @@ footer .small {
 
 .title-wrapper {
   text-align: center;
-  padding: 20px 0;
+  padding: 10px 0;
 }
 
 .title-wrapper span {
@@ -544,12 +545,45 @@ footer .small {
   grid-column-gap: 5px;
   grid-row-gap: 10px;
   padding: 50px 0;
+  margin: 0 100px;
 }
 
 .gallery-wrapper figure {
   width: 75px;
   height: 100px;
   margin: 0 auto;
+  position: relative;
+}
+
+.gallery-wrapper figure > img {
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.gallery-wrapper figure > button {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: none;
+  width: 17px;
+  height: 17px;
+  border-radius: 2px;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gallery-wrapper figure > button::before {
+  position: absolute;
+  display: block;
+  content: "\f2ed";
+  font-family: "Font Awesome 6 Free";
+  font-size: 10px;
+  font-weight: bold;
+  color: #fff;
 }
 
 .divider {

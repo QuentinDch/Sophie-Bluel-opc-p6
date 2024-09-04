@@ -190,6 +190,8 @@ function addCloseModalListeners(modalElement) {
   // Fermeture via le bouton de fermeture
   btnClosedModal.addEventListener("click", () => closeModal(modalElement));
 
+  displayProjectsModal(galleryData);
+
   // Fermeture via le clic sur l'overlay
   modalElement.addEventListener("click", () => closeModal(modalElement));
 }
@@ -197,4 +199,33 @@ function addCloseModalListeners(modalElement) {
 function closeModal(modalElement) {
   modalElement.style.display = "none";
   modalElement.setAttribute("aria-hidden", "true");
+}
+
+function displayProjectsModal(projects) {
+  const galleryWrapper = document.querySelector(".gallery-wrapper");
+  galleryWrapper.innerHTML = "";
+
+  projects.forEach((project) => {
+    const figureModalElement = createGalleryModalElement(project);
+    galleryWrapper.appendChild(figureModalElement);
+  });
+}
+
+function createGalleryModalElement(project) {
+  const figureModalElement = document.createElement("figure");
+  figureModalElement.id = project.id;
+
+  const imgModalElement = document.createElement("img");
+  imgModalElement.src = project.imageUrl;
+  imgModalElement.alt = project.title;
+  imgModalElement.loading = "lazy";
+
+  const buttonModalElement = document.createElement("button");
+  buttonModalElement.id = "deleteBtn";
+  buttonModalElement.type = "button";
+
+  figureModalElement.appendChild(imgModalElement);
+  figureModalElement.appendChild(buttonModalElement);
+
+  return figureModalElement;
 }
