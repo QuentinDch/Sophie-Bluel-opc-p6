@@ -131,6 +131,7 @@ function TokenVerification() {
     console.log("Utilisateur authentifié avec un token.");
     const bannerEditElement = document.querySelector(".banner-edit");
     const btnLog = document.getElementById("btnLog");
+    const portfolio = document.getElementById("portfolio");
 
     if (bannerEditElement) {
       bannerEditElement.style.clipPath = "inset(0 0 0 0)";
@@ -140,14 +141,60 @@ function TokenVerification() {
         sessionStorage.removeItem("authToken");
       });
 
-      document.getElementById("portfolio").innerHTML += `
-      <div class="btn-container">
-        <button type="button"><span>modifier</span></button>
-      </div>
-      `;
+      // Création et ajout du bouton "modifier"
+      const btnContainer = createEditButton();
+      portfolio.appendChild(btnContainer);
+
       return;
     }
   }
   console.log("Utilisateur non authentifié. Aucun token trouvé.");
 }
 TokenVerification();
+
+// Fonction de création et d'interaction du bouton de la modale
+function createEditButton() {
+  const btnContainer = document.createElement("div");
+  btnContainer.className = "btn-container";
+
+  const button = document.createElement("button");
+  button.type = "button";
+
+  const span = document.createElement("span");
+  span.textContent = "modifier";
+
+  button.appendChild(span);
+  btnContainer.appendChild(button);
+
+  button.addEventListener("click", openModal);
+
+  return btnContainer;
+}
+
+function openModal() {
+  const modalElement = document.getElementById("modal");
+  const modalContent = modalElement.querySelector(".modal-wrapper");
+
+  modalElement.style.display = null;
+  modalElement.setAttribute("aria-hidden", "false");
+
+  modalContent.addEventListener("click", (event) => event.stopPropagation());
+
+  // Ajout des listeners de fermeture
+  addCloseModalListeners(modalElement);
+}
+
+function addCloseModalListeners(modalElement) {
+  const btnClosedModal = document.getElementById("btn-closed-modal");
+
+  // Fermeture via le bouton de fermeture
+  btnClosedModal.addEventListener("click", () => closeModal(modalElement));
+
+  // Fermeture via le clic sur l'overlay
+  modalElement.addEventListener("click", () => closeModal(modalElement));
+}
+
+function closeModal(modalElement) {
+  modalElement.style.display = "none";
+  modalElement.setAttribute("aria-hidden", "true");
+}

@@ -62,6 +62,7 @@
         <h2>Mes Projets</h2>
         <div class="categories">
           <button
+            type="button"
             id="0"
             class="categories__items active"
             aria-pressed="true"
@@ -94,5 +95,37 @@
         </ul>
       </nav>
     </footer>
+    <aside
+      id="modal"
+      class="modal"
+      aria-hidden="true"
+      role="dialog"
+      style="display: none"
+    >
+      <div class="modal-wrapper">
+        <nav class="navbar-wrapper">
+          <button class="btn-modal">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <button class="btn-modal" id="btn-closed-modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </nav>
+        <div class="title-wrapper"><span>Galerie photo</span></div>
+        <div class="gallery-wrapper"></div>
+        <div class="divider">
+          <hr class="divider__line" />
+        </div>
+        <div class="button-wrapper">
+          <button
+            type="button"
+            class="btn"
+            aria-label="Ajouter un élément photo à la gallerie"
+          >
+            <span>Ajouter une photo</span>
+          </button>
+        </div>
+      </div>
+    </aside>
   </body>
 </html>
