@@ -510,6 +510,7 @@ footer .small {
   border-radius: 10px;
   background-color: #fff;
   overflow: auto;
+  position: relative;
 }
 
 .navbar-wrapper {
@@ -608,4 +609,35 @@ footer .small {
 .button-wrapper button {
   height: 36px;
   width: 237px;
+}
+
+.homepage-edit2 {
+  position: absolute;
+  inset: 0px;
+  z-index: 50;
+  clip-path: inset(0 0 100% 0);
+  background-color: #fff;
+}
+
+.add-picture-wrapper {
+  display: flex;
+  width: 420px;
+  height: 170px;
+  margin: 50px auto;
+  border-radius: 3px;
+  background-color: #e8f1f6;
+}
+
+.icon-wrapper {
+  width: 76px;
+  height: 76px;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-wrapper i {
+  color: #b9c5cc;
+  font-size: 80px;
 }

@@ -102,7 +102,7 @@
       role="dialog"
       style="display: none"
     >
-      <div class="modal-wrapper">
+      <div class="modal-wrapper" id="homepage-edit1">
         <nav class="navbar-wrapper">
           <button class="btn-modal">
             <i class="fa-solid fa-arrow-left"></i>
@@ -118,12 +118,46 @@
         </div>
         <div class="button-wrapper">
           <button
+            id="btn-add-picture"
             type="button"
             class="btn"
             aria-label="Ajouter un élément photo à la gallerie"
           >
             <span>Ajouter une photo</span>
           </button>
+        </div>
+        <div class="modal-wrapper homepage-edit2" id="homepage-edit2">
+          <nav class="navbar-wrapper">
+            <button class="btn-modal">
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <button class="btn-modal" id="btn-closed-modal">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </nav>
+          <div class="title-wrapper"><span>Ajout photo</span></div>
+          <div class="add-picture-wrapper">
+            <div class="icon-wrapper"><i class="fa-regular fa-image"></i></div>
+          </div>
+          <form action="#" method="get">
+            <label for="title">Titre</label>
+            <input type="text" name="title" id="title" />
+            <label for="category">Catégorie</label>
+            <input type="text" name="category" id="category" />
+          </form>
+          <div class="divider">
+            <hr class="divider__line" />
+          </div>
+          <div class="button-wrapper">
+            <button
+              id="btn-valid"
+              type="submit"
+              class="btn"
+              aria-label="Valider l'ajout de la photo à la gallerie"
+            >
+              <span>Valider</span>
+            </button>
+          </div>
         </div>
       </div>
     </aside>

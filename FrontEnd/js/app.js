@@ -173,7 +173,7 @@ function createEditButton() {
 
 function openModal() {
   const modalElement = document.getElementById("modal");
-  const modalContent = modalElement.querySelector(".modal-wrapper");
+  const modalContent = modalElement.querySelector("#homepage-edit1");
 
   modalElement.style.display = null;
   modalElement.setAttribute("aria-hidden", "false");
@@ -182,6 +182,9 @@ function openModal() {
 
   // Ajout des listeners de fermeture
   addCloseModalListeners(modalElement);
+
+  // Ajout du listener pour le bouton d'ajout d'image
+  addAddPictureListener();
 }
 
 function addCloseModalListeners(modalElement) {
@@ -228,4 +231,12 @@ function createGalleryModalElement(project) {
   figureModalElement.appendChild(buttonModalElement);
 
   return figureModalElement;
+}
+
+function addAddPictureListener() {
+  const btnAddPicture = document.getElementById("btn-add-picture");
+  btnAddPicture.addEventListener("click", () => {
+    const homepageEdit2 = document.getElementById("homepage-edit2");
+    homepageEdit2.style.clipPath = "inset(0 0 0 0)";
+  });
 }
