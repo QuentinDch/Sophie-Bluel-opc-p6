@@ -60,6 +60,9 @@ async function fetchCategoriesGalleryData() {
     const categoriesData = await response.json();
     console.log(categoriesData);
 
+    // Appelle la fonction pour ajouter les catégories dans le select
+    populateCategorySelect(categoriesData);
+
     const categoriesDivElement = document.querySelector(".categories");
 
     categoriesData.forEach((filter) => {
@@ -244,5 +247,24 @@ function addAddPictureListener() {
       homepageEdit2.style.clipPath = "inset(0 0 100% 0)";
       btnPrevModal.style.opacity = "0";
     });
+  });
+}
+
+// Fonction pour ajouter les catégories au select
+function populateCategorySelect(categories) {
+  const selectElement = document.getElementById("category");
+
+  selectElement.innerHTML = "";
+
+  const defaultOption = document.createElement("option");
+  defaultOption.textContent = "";
+  defaultOption.value = "";
+  selectElement.appendChild(defaultOption);
+
+  categories.forEach((category) => {
+    const optionElement = document.createElement("option");
+    optionElement.value = category.id;
+    optionElement.textContent = category.name;
+    selectElement.appendChild(optionElement);
   });
 }
