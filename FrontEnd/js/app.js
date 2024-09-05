@@ -237,6 +237,12 @@ function addAddPictureListener() {
   const btnAddPicture = document.getElementById("btn-add-picture");
   btnAddPicture.addEventListener("click", () => {
     const homepageEdit2 = document.getElementById("homepage-edit2");
+    const btnPrevModal = document.getElementById("btn-prev-modal");
     homepageEdit2.style.clipPath = "inset(0 0 0 0)";
+    btnPrevModal.style.opacity = "1";
+    btnPrevModal.addEventListener("click", () => {
+      homepageEdit2.style.clipPath = "inset(0 0 100% 0)";
+      btnPrevModal.style.opacity = "0";
+    });
   });
 }

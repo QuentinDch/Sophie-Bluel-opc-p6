@@ -429,7 +429,7 @@ footer .small {
 /* Styles pour la div bannière de modification DEBUT*/
 .banner-edit {
   position: fixed;
-  z-index: 999;
+  z-index: 150;
   inset: 0;
   height: 50px;
   width: 100%;
@@ -502,14 +502,13 @@ footer .small {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 200;
 }
 
 .modal-wrapper {
   width: 630px;
   border-radius: 10px;
   background-color: #fff;
-  overflow: auto;
   position: relative;
 }
 
@@ -525,11 +524,16 @@ footer .small {
   border: none;
   color: #000;
   font-size: 1rem;
+  position: relative;
+  z-index: 100;
+}
+
+.toggle-opacity {
+  opacity: 0;
 }
 
 .title-wrapper {
   text-align: center;
-  padding: 10px 0;
 }
 
 .title-wrapper span {
@@ -617,13 +621,15 @@ footer .small {
   z-index: 50;
   clip-path: inset(0 0 100% 0);
   background-color: #fff;
+  margin-top: 61.2px;
+  height: 600px;
 }
 
 .add-picture-wrapper {
   display: flex;
   width: 420px;
   height: 170px;
-  margin: 50px auto;
+  margin: 30px auto 0px auto;
   border-radius: 3px;
   background-color: #e8f1f6;
 }
@@ -640,4 +646,22 @@ footer .small {
 .icon-wrapper i {
   color: #b9c5cc;
   font-size: 80px;
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  width: 420px;
+  margin: 0 auto 50px auto;
+}
+
+.modal form > label {
+  margin: 2em 0 1em 0;
+}
+
+.modal form > input {
+  height: 50px;
+  font-size: 1em;
+  border: none;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
