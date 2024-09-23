@@ -229,9 +229,15 @@ function createGalleryModalElement(project) {
   const buttonModalElement = document.createElement("button");
   buttonModalElement.id = "deleteBtn";
   buttonModalElement.type = "button";
+  buttonModalElement.ariaLabel = "Supprimer un projet";
 
   figureModalElement.appendChild(imgModalElement);
   figureModalElement.appendChild(buttonModalElement);
+
+  // Ajouter l'écouteur pour supprimer
+  buttonModalElement.addEventListener("click", () => {
+    deleteProject(figureModalElement, project.id);
+  });
 
   return figureModalElement;
 }
@@ -248,6 +254,32 @@ function addAddPictureListener() {
       btnPrevModal.style.opacity = "0";
     });
   });
+}
+
+// Fonction pour supprimer un projet
+let authToken = sessionStorage.getItem("authToken");
+
+function deleteProject(figureElement, projectId) {
+  figureElement.remove();
+  fetch(`http://localhost:5678/api/works/${projectId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${authToken}`,
+    },
+  }).then((response) => {
+    if (!response.ok) {
+      console.error("Erreur lors de la suppression du projet");
+      return;
+    }
+
+    console.log(`Projet ${projectId} supprimé du serveur`);
+    galleryData = galleryData.filter((project) => project.id !== projectId);
+    // Rappelle la fonction pour afficher les projets mis à jour
+    displayProjects(galleryData);
+  });
+
+  console.log(`Projet avec ID ${projectId} supprimé`);
 }
 
 // Fonction pour ajouter les catégories au select
