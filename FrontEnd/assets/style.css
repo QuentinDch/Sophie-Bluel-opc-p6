@@ -507,6 +507,7 @@ footer .small {
 
 .modal-wrapper {
   width: 630px;
+  height: 630px;
   border-radius: 10px;
   background-color: #fff;
   position: relative;
@@ -622,7 +623,6 @@ footer .small {
   clip-path: inset(0 0 100% 0);
   background-color: #fff;
   margin-top: 61.2px;
-  height: 600px;
 }
 
 .add-picture-wrapper {
@@ -709,4 +709,65 @@ footer .small {
   font-weight: 500;
   line-height: 16.42px;
   color: #306685;
+}
+
+.modal-delete {
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-50%);
+  width: 500px;
+  background-color: #fff;
+  z-index: 600;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.1), 0px 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.title-delete-wrapper {
+  padding: 20px;
+  background-color: rgb(240, 240, 240, 0.75);
+}
+
+.title-delete-wrapper span {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.text-delete-wrapper {
+  padding: 20px 20px 12.5px 20px;
+  border-bottom: 1px solid rgb(0, 0, 0, 0.09);
+}
+
+.button-wrapper {
+  padding: 10px 20px 30px 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-modal-delete {
+  height: 33px;
+  width: 110px !important;
+  border: 1px solid rgb(0, 0, 0, 0.25);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.max-w100 {
+  max-width: 100%;
+}
+
+.btn-modal-delete > span {
+  font-family: "Work Sans";
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.btn-delete {
+  background-color: hsl(1, 99%, 55%);
+  color: #fff;
+  border: none;
 }
