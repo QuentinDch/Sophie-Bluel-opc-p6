@@ -268,3 +268,8 @@ function populateCategorySelect(categories) {
     selectElement.appendChild(optionElement);
   });
 }
+
+// Déclenche le clic sur l'input file
+document.getElementById("uploadButton").addEventListener("click", () => {
+  document.getElementById("fileInput").click();
+});

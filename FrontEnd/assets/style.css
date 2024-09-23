@@ -627,6 +627,7 @@ footer .small {
 
 .add-picture-wrapper {
   display: flex;
+  flex-direction: column;
   width: 420px;
   height: 170px;
   margin: 30px auto 0px auto;
@@ -637,7 +638,7 @@ footer .small {
 .icon-wrapper {
   width: 76px;
   height: 76px;
-  margin: 20px auto;
+  margin: 20px auto 10px auto;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -673,4 +674,34 @@ footer .small {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
   background-color: #fff;
   color: #6c6c6c;
+}
+
+.form-upload {
+  text-align: center;
+}
+
+.form-upload span {
+  font-family: "Work Sans";
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 11.73px;
+  color: #306685;
+}
+
+.form-upload button {
+  width: 175px;
+  height: 33px;
+  background-color: #cbd6dc;
+  margin: 0 auto 5px auto;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+}
+
+.form-upload button > span {
+  font-family: "Work Sans";
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.42px;
+  color: #306685;
 }

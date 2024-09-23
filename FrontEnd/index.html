@@ -130,6 +130,19 @@
           <div class="title-wrapper"><span>Ajout photo</span></div>
           <div class="add-picture-wrapper">
             <div class="icon-wrapper"><i class="fa-regular fa-image"></i></div>
+            <form class="form-upload">
+              <input
+                type="file"
+                id="fileInput"
+                accept="image/*"
+                aria-label="Sélectionner le fichier à télécharger"
+                style="display: none"
+              />
+              <button type="button" id="uploadButton">
+                <span>+ Ajouter photo</span>
+              </button>
+              <span>jpg, png : 4 Mo max</span>
+            </form>
           </div>
           <form action="#" method="get">
             <label for="title">Titre</label>
