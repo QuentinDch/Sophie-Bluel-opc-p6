@@ -234,9 +234,9 @@ function createGalleryModalElement(project) {
   figureModalElement.appendChild(imgModalElement);
   figureModalElement.appendChild(buttonModalElement);
 
-  // Ajouter l'écouteur pour supprimer
+  // Ajout de l'écouteur d'event pour supprimer un projet
   buttonModalElement.addEventListener("click", () => {
-    deleteProject(figureModalElement, project.id);
+    openDeleteModal(project.id, figureModalElement);
   });
 
   return figureModalElement;
@@ -254,6 +254,38 @@ function addAddPictureListener() {
       btnPrevModal.style.opacity = "0";
     });
   });
+}
+
+// Fonction qui ouvre la modale et gère les boutons de confirmation et d'annulation
+function openDeleteModal(projectId, figureElement) {
+  const modal = document.getElementById("modal-delete");
+  const overlay = document.getElementById("modal-overlay");
+
+  overlay.style.display = "flex";
+  overlay.setAttribute("aria-hidden", "false");
+
+  modal.style.display = "block";
+  modal.setAttribute("aria-hidden", "false");
+
+  const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+  cancelDeleteBtn.addEventListener("click", () => closeDeleteModal());
+
+  const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+  confirmDeleteBtn.addEventListener("click", () => {
+    deleteProject(figureElement, projectId);
+    closeDeleteModal();
+  });
+}
+
+function closeDeleteModal() {
+  const modal = document.getElementById("modal-delete");
+  const overlay = document.getElementById("modal-overlay");
+
+  overlay.style.display = "none";
+  overlay.setAttribute("aria-hidden", "true");
+
+  modal.style.display = "none";
+  modal.setAttribute("aria-hidden", "true");
 }
 
 // Fonction pour supprimer un projet
@@ -275,11 +307,8 @@ function deleteProject(figureElement, projectId) {
 
     console.log(`Projet ${projectId} supprimé du serveur`);
     galleryData = galleryData.filter((project) => project.id !== projectId);
-    // Rappelle la fonction pour afficher les projets mis à jour
-    displayProjects(galleryData);
+    displayProjects(galleryData); // Mets à jour l'affichage de la galerie
   });
-
-  console.log(`Projet avec ID ${projectId} supprimé`);
 }
 
 // Fonction pour ajouter les catégories au select

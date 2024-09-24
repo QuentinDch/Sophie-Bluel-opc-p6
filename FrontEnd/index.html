@@ -102,19 +102,23 @@
       role="dialog"
       style="display: none"
     >
-      <div class="modal-wrapper" id="homepage-edit1">
-        <div class="modal-delete">
-          <div class="title-delete-wrapper">
-            <span>Supprimer le projet ?</span>
-          </div>
-          <div class="text-delete-wrapper">
-            <span>Cela ne peut pas être annulé</span>
-          </div>
-          <div class="button-wrapper">
-            <button class="btn-modal-delete"><span>Retour</span></button>
-            <button class="btn-modal-delete btn-delete">
-              <span>Supprimer</span>
-            </button>
+      <div class="modal-wrapper homepage-edit1" id="homepage-edit1">
+        <div class="modal-overlay" id="modal-overlay" aria-hidden="true">
+          <div class="modal-delete" id="modal-delete" aria-hidden="true">
+            <div class="title-delete-wrapper">
+              <span>Supprimer le projet ?</span>
+            </div>
+            <div class="text-delete-wrapper">
+              <span>Cela ne peut pas être annulé</span>
+            </div>
+            <div class="button-wrapper">
+              <button class="btn-modal-delete btn-cancel" id="cancelDeleteBtn">
+                <span>Retour</span>
+              </button>
+              <button class="btn-modal-delete btn-delete" id="confirmDeleteBtn">
+                <span>Supprimer</span>
+              </button>
+            </div>
           </div>
         </div>
         <nav class="navbar-wrapper">
