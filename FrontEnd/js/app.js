@@ -334,3 +334,12 @@ function populateCategorySelect(categories) {
 document.getElementById("uploadButton").addEventListener("click", () => {
   document.getElementById("fileInput").click();
 });
+
+// Aperçu du fichier image sélectionné
+const inputFile = document.getElementById("fileInput");
+console.log(inputFile);
+
+inputFile.addEventListener("change", () => {
+  const file = inputFile.files[0];
+  console.log(file);
+});
