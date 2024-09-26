@@ -355,6 +355,13 @@ inputFile.addEventListener("change", () => {
 
       previewWrapper.appendChild(img);
 
+      // Ajout du bouton "changer de photo"
+      const changeButton = document.createElement("button");
+      changeButton.classList.add("change-btn");
+      changeButton.type = "button";
+      changeButton.title = "Modifier le fichier téléchargé";
+      previewWrapper.appendChild(changeButton);
+
       // Insère le conteneur d'image après le bouton d'upload
       uploadButton.parentNode.insertBefore(
         previewWrapper,
@@ -376,6 +383,25 @@ inputFile.addEventListener("change", () => {
       const formSpans = document.querySelectorAll(".form-upload span");
       formSpans.forEach((span) => {
         span.style.display = "none";
+      });
+
+      // Gestion du clic sur "Changer de photo"
+      changeButton.addEventListener("click", () => {
+        previewWrapper.remove();
+        inputFile.value = "";
+
+        // Réaffiche les éléments cachés
+        if (iconWrapper) {
+          iconWrapper.style.display = "block";
+        }
+        if (uploadButton) {
+          uploadButton.style.display = "block";
+        }
+        formSpans.forEach((span) => {
+          span.style.display = "inline";
+        });
+        // Déclenche à nouveau le clic sur l'input file pour rechercher un nouveau fichier
+        inputFile.click();
       });
     };
 

@@ -802,6 +802,7 @@ footer .small {
   width: 130px;
   background-color: #fff;
   margin: auto;
+  position: relative;
 }
 
 .image-preview-wrapper img {
@@ -809,4 +810,21 @@ footer .small {
   height: 100%;
   object-fit: cover;
   object-position: 50% 50%;
+}
+
+.change-btn {
+  position: absolute;
+  bottom: 0%;
+  right: -10%;
+  transform: translateX(50%);
+  background-color: transparent !important;
+  height: 20px !important;
+  width: 20px !important;
+}
+
+.change-btn::before {
+  position: absolute;
+  display: block;
+  content: "\f044";
+  font-family: "Font Awesome 6 Free";
 }
