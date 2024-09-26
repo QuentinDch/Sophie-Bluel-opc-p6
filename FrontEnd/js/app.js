@@ -339,6 +339,7 @@ document.getElementById("uploadButton").addEventListener("click", () => {
 const inputFile = document.getElementById("fileInput");
 const uploadButton = document.getElementById("uploadButton");
 
+// Ecouter les changements de l'input file
 inputFile.addEventListener("change", () => {
   const file = inputFile.files[0];
 
@@ -406,5 +407,73 @@ inputFile.addEventListener("change", () => {
     };
 
     reader.readAsDataURL(file);
+  }
+});
+
+// Gestion du POST pour ajouter un projet
+const postForm = document.getElementById("post-form");
+
+postForm.addEventListener("submit", async (e) => {
+  e.preventDefault(); // Empêche l'envoi du formulaire par défaut
+
+  // Crée un objet FormData à partir du formulaire
+  const formData = new FormData(postForm);
+
+  formData.append("image", inputFile.files[0]);
+
+  try {
+    const response = await fetch("http://localhost:5678/api/works", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP : ${response.status}`);
+    }
+
+    // Récupère et affiche la réponse JSON
+    const data = await response.json();
+    console.log("Projet ajouté avec succès", data);
+
+    // Ajoute le nouveau projet à la galerie
+    galleryData.push(data); // Ajoute le projet à la liste globale
+    displayProjects(galleryData); // Met à jour l'affichage de la galerie
+
+    // Réinitialiser le formulaire après l'ajout
+    postForm.reset();
+
+    // Supprime l'aperçu de l'image si nécessaire
+    const previewWrapper = document.querySelector(".image-preview-wrapper");
+    if (previewWrapper) {
+      previewWrapper.remove();
+    }
+
+    // Réaffiche l'interface d'origine
+    const iconWrapper = document.querySelector(".icon-wrapper");
+    if (iconWrapper) {
+      iconWrapper.style.display = "block"; // Affiche l'icône
+    }
+
+    const uploadButton = document.getElementById("uploadButton");
+    if (uploadButton) {
+      uploadButton.style.display = "block"; // Affiche le bouton d'upload
+    }
+
+    const formSpans = document.querySelectorAll(".form-upload span");
+    formSpans.forEach((span) => {
+      span.style.display = "inline"; // Affiche les spans
+    });
+
+    // Ferme la modale
+    const modalElement = document.getElementById("modal");
+    closeModal(modalElement); // Appelle la fonction pour fermer la modale
+
+    // Affiche le projet nouvellement ajouté
+    displayProjects([data]); // ou fetchProjects() pour récupérer tous les projets
+  } catch (error) {
+    console.error("Erreur lors de l'ajout du projet :", error);
   }
 });

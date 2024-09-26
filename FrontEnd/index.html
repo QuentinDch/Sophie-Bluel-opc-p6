@@ -95,6 +95,7 @@
         </ul>
       </nav>
     </footer>
+
     <aside
       id="modal"
       class="modal"
@@ -163,25 +164,25 @@
               <span>jpg, png : 4 Mo max</span>
             </form>
           </div>
-          <form action="#" method="get">
+          <form id="post-form" action="#" method="post">
             <label for="title">Titre</label>
             <input type="text" name="title" id="title" />
             <label for="category">Catégorie</label>
             <select name="category" id="category"></select>
+            <div class="divider">
+              <hr class="divider__line" />
+            </div>
+            <div class="button-wrapper">
+              <button
+                id="btn-valid"
+                type="submit"
+                class="btn"
+                aria-label="Valider l'ajout du projet à la gallerie"
+              >
+                <span>Valider</span>
+              </button>
+            </div>
           </form>
-          <div class="divider">
-            <hr class="divider__line" />
-          </div>
-          <div class="button-wrapper">
-            <button
-              id="btn-valid"
-              type="submit"
-              class="btn"
-              aria-label="Valider l'ajout de la photo à la gallerie"
-            >
-              <span>Valider</span>
-            </button>
-          </div>
         </div>
       </div>
     </aside>

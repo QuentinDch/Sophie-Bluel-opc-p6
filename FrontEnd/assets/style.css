@@ -284,8 +284,7 @@ li:hover {
 .gallery {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-column-gap: 20px;
-  grid-row-gap: 20px;
+  grid-row-gap: 40px;
 }
 
 @media (max-width: 1024px) {
@@ -300,8 +299,16 @@ li:hover {
   }
 }
 
+.gallery figure {
+  width: 305px;
+  height: 407px;
+}
+
 .gallery img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
 }
 #contact {
   width: 379px;
@@ -567,6 +574,7 @@ footer .small {
 
 .gallery-wrapper figure > img {
   height: 100%;
+  width: 100%;
   object-fit: cover;
   object-position: 50% 50%;
 }
@@ -679,6 +687,7 @@ footer .small {
   background-color: #fff;
   color: #6c6c6c;
   cursor: pointer;
+  margin-bottom: 40px;
 }
 
 .form-upload {
@@ -752,11 +761,32 @@ footer .small {
   border-bottom: 1px solid rgb(0, 0, 0, 0.09);
 }
 
+.error-message2 {
+  height: 40px;
+  max-width: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ff7c80;
+  background-color: #fde4e4;
+}
+
+.error-message2 span {
+  color: #c8030d;
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
 .button-wrapper {
   padding: 10px 20px 30px 20px;
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+}
+
+#btn-valid {
+  margin: 0 auto !important;
 }
 
 .btn-modal-delete {
