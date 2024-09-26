@@ -248,10 +248,10 @@ function addAddPictureListener() {
     const homepageEdit2 = document.getElementById("homepage-edit2");
     const btnPrevModal = document.getElementById("btn-prev-modal");
     homepageEdit2.style.clipPath = "inset(0 0 0 0)";
-    btnPrevModal.style.opacity = "1";
+    btnPrevModal.style.display = "flex";
     btnPrevModal.addEventListener("click", () => {
       homepageEdit2.style.clipPath = "inset(0 0 100% 0)";
-      btnPrevModal.style.opacity = "0";
+      btnPrevModal.style.display = "none";
     });
   });
 }
@@ -288,27 +288,32 @@ function closeDeleteModal() {
   modal.setAttribute("aria-hidden", "true");
 }
 
-// Fonction pour supprimer un projet
 let authToken = sessionStorage.getItem("authToken");
 
 function deleteProject(figureElement, projectId) {
-  figureElement.remove();
   fetch(`http://localhost:5678/api/works/${projectId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${authToken}`,
     },
-  }).then((response) => {
-    if (!response.ok) {
-      console.error("Erreur lors de la suppression du projet");
-      return;
-    }
+  })
+    .then((response) => {
+      if (!response.ok) {
+        console.error(
+          `Erreur lors de la suppression du projet (code: ${response.status})`
+        );
+        return;
+      }
 
-    console.log(`Projet ${projectId} supprimé du serveur`);
-    galleryData = galleryData.filter((project) => project.id !== projectId);
-    displayProjects(galleryData); // Mets à jour l'affichage de la galerie
-  });
+      // Mise à jour des données locales et de l'interface
+      galleryData = galleryData.filter((project) => project.id !== projectId);
+      displayProjects(galleryData); // Mets à jour l'affichage de la galerie
+      figureElement.remove(); // Supprime l'élément visuellement après confirmation
+    })
+    .catch((error) => {
+      console.error("Erreur lors de la requête:", error);
+    });
 }
 
 // Fonction pour ajouter les catégories au select
@@ -339,7 +344,7 @@ document.getElementById("uploadButton").addEventListener("click", () => {
 const inputFile = document.getElementById("fileInput");
 const uploadButton = document.getElementById("uploadButton");
 
-// Ecouter les changements de l'input file
+// Ecouter les changements de l'input file à simplifier!!!!!!!!!!!!!!!!!à simplifier!!!!!!!!!!!!!!!!!à simplifier!!!!!!!!!!!!!!!!!
 inputFile.addEventListener("change", () => {
   const file = inputFile.files[0];
 
@@ -363,11 +368,11 @@ inputFile.addEventListener("change", () => {
       changeButton.title = "Modifier le fichier téléchargé";
       previewWrapper.appendChild(changeButton);
 
-      // Insère le conteneur d'image après le bouton d'upload
+      // Insère le conteneur d'image après le bouton d'upload à simplifier!!!!!!!!!!!!!!!!!à simplifier!!!!!!!!!!!!!!!!!
       uploadButton.parentNode.insertBefore(
         previewWrapper,
         uploadButton.nextSibling
-      );
+      ); //à simplifier!!!!!!!!!!!!!!!!!à simplifier!!!!!!!!!!!!!!!!!à simplifier!!!!!!!!!!!!!!!!!à simplifier!!!!!!!!!!!!!!!!!
 
       // Cache la div et ses éléments après la prévisualisation
       const iconWrapper = document.querySelector(".icon-wrapper");
@@ -416,7 +421,6 @@ const postForm = document.getElementById("post-form");
 postForm.addEventListener("submit", async (e) => {
   e.preventDefault(); // Empêche l'envoi du formulaire par défaut
 
-  // Crée un objet FormData à partir du formulaire
   const formData = new FormData(postForm);
 
   formData.append("image", inputFile.files[0]);
@@ -439,8 +443,6 @@ postForm.addEventListener("submit", async (e) => {
     console.log("Projet ajouté avec succès", data);
 
     // Ajoute le nouveau projet à la galerie
-    galleryData.push(data); // Ajoute le projet à la liste globale
-    displayProjects(galleryData); // Met à jour l'affichage de la galerie
 
     // Réinitialiser le formulaire après l'ajout
     postForm.reset();
@@ -454,25 +456,24 @@ postForm.addEventListener("submit", async (e) => {
     // Réaffiche l'interface d'origine
     const iconWrapper = document.querySelector(".icon-wrapper");
     if (iconWrapper) {
-      iconWrapper.style.display = "block"; // Affiche l'icône
+      iconWrapper.style.display = "block";
     }
-
     const uploadButton = document.getElementById("uploadButton");
     if (uploadButton) {
-      uploadButton.style.display = "block"; // Affiche le bouton d'upload
+      uploadButton.style.display = "block";
     }
-
     const formSpans = document.querySelectorAll(".form-upload span");
     formSpans.forEach((span) => {
-      span.style.display = "inline"; // Affiche les spans
+      span.style.display = "inline";
     });
 
     // Ferme la modale
     const modalElement = document.getElementById("modal");
-    closeModal(modalElement); // Appelle la fonction pour fermer la modale
+    closeModal(modalElement);
 
     // Affiche le projet nouvellement ajouté
-    displayProjects([data]); // ou fetchProjects() pour récupérer tous les projets
+    galleryData.push({ ...data, categoryId: Number(data.categoryId) });
+    displayProjects(galleryData); // Met à jour l'affichage de la galerie
   } catch (error) {
     console.error("Erreur lors de l'ajout du projet :", error);
   }

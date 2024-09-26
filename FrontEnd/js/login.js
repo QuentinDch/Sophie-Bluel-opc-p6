@@ -18,7 +18,7 @@ async function loginUser(email, password) {
     const data = await response.json();
 
     // Stock le token dans sessionStorage
-    if (data.token) {
+    if (data?.token) {
       sessionStorage.setItem("authToken", data.token);
     }
 
@@ -44,7 +44,7 @@ function setupFormHandler() {
     // Appel loginUser avec les valeurs du formulaire
     try {
       const userData = await loginUser(emailInput, passwordInput);
-      if (userData && userData.token) {
+      if (userData && userData?.token) {
         // Si userData est correct et contient un token, redirection vers index.html
         window.location.href = "index.html";
         console.log("User logged in successfully:", userData);
