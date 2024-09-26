@@ -337,9 +337,48 @@ document.getElementById("uploadButton").addEventListener("click", () => {
 
 // Aperçu du fichier image sélectionné
 const inputFile = document.getElementById("fileInput");
-console.log(inputFile);
+const uploadButton = document.getElementById("uploadButton");
 
 inputFile.addEventListener("change", () => {
   const file = inputFile.files[0];
-  console.log(file);
+
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      const previewWrapper = document.createElement("div");
+      previewWrapper.classList.add("image-preview-wrapper");
+
+      const img = document.createElement("img");
+      img.src = e.target.result;
+      img.alt = "Aperçu de l'image téléchargée";
+
+      previewWrapper.appendChild(img);
+
+      // Insère le conteneur d'image après le bouton d'upload
+      uploadButton.parentNode.insertBefore(
+        previewWrapper,
+        uploadButton.nextSibling
+      );
+
+      // Cache la div et ses éléments après la prévisualisation
+      const iconWrapper = document.querySelector(".icon-wrapper");
+      if (iconWrapper) {
+        iconWrapper.style.display = "none";
+      }
+
+      // Cache le button dans le formulaire
+      if (uploadButton) {
+        uploadButton.style.display = "none";
+      }
+
+      // Cache les spans dans le formulaire
+      const formSpans = document.querySelectorAll(".form-upload span");
+      formSpans.forEach((span) => {
+        span.style.display = "none";
+      });
+    };
+
+    reader.readAsDataURL(file);
+  }
 });
