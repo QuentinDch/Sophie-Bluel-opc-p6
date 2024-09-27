@@ -1,7 +1,7 @@
-// Fonction asynchrone pour authentifier l'utilisateur en envoyant une requête POST à l'API de connexion
+// Authentifie un utilisateur en envoyant une requête POST à l'API de connexion
 async function loginUser(email, password) {
-  // URL de l'API pour la connexion des utilisateurs
   const loginUrl = "http://localhost:5678/api/users/login";
+
   try {
     const response = await fetch(loginUrl, {
       method: "POST",
@@ -12,51 +12,56 @@ async function loginUser(email, password) {
     });
 
     if (!response.ok) {
-      throw new Error(`Login failed with status: ${response.status}`);
+      const errorMsg = `Login failed with status: ${response.status}`;
+      return { error: errorMsg };
     }
 
-    const data = await response.json();
+    const loginData = await response.json();
 
-    // Stock le token dans sessionStorage
-    if (data?.token) {
-      sessionStorage.setItem("authToken", data.token);
+    if (loginData?.token) {
+      sessionStorage.setItem("authToken", loginData.token);
     }
 
-    return data;
+    return { loginData };
   } catch (error) {
     console.error("Error during user login:", error.message);
+    return { error: "An unexpected error occurred. Please try again later." };
   }
 }
 
 // Fonction pour gérer la soumission du formulaire et appeler loginUser
 function setupFormHandler() {
-  const formElement = document.getElementById("contact");
-  const errorContainer = document.getElementById("error-container");
+  const loginFormElement = document.getElementById("login-form");
 
-  formElement.addEventListener("submit", async (e) => {
+  loginFormElement.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const emailInput = formElement.querySelector("#email").value;
-    const passwordInput = formElement.querySelector("#password").value;
+    const emailInput = loginFormElement.querySelector("#email").value;
+    const passwordInput = loginFormElement.querySelector("#password").value;
 
-    errorContainer.innerHTML = "";
+    let errorMessageDiv = document.querySelector(".error-message");
+    if (!errorMessageDiv) {
+      errorMessageDiv = document.createElement("div");
+      errorMessageDiv.className = "error-message";
+      loginFormElement.parentNode.insertBefore(
+        errorMessageDiv,
+        loginFormElement
+      );
+    }
+
+    errorMessageDiv.innerHTML = "";
 
     // Appel loginUser avec les valeurs du formulaire
     try {
       const userData = await loginUser(emailInput, passwordInput);
-      if (userData && userData?.token) {
-        // Si userData est correct et contient un token, redirection vers index.html
+      if (userData && userData?.loginData) {
         window.location.href = "index.html";
-        console.log("User logged in successfully:", userData);
         return;
       }
 
-      // Si userData est incorrect, afficher un message d'erreur
-      errorContainer.innerHTML = `
-          <div class="error-message">
-            <span>E-mail ou mot de passe incorrect.</span>
-          </div>
-        `;
+      const errorMessageSpan = document.createElement("span");
+      errorMessageSpan.textContent = "L'e-mail et le mot de passe sont requis.";
+      errorMessageDiv.appendChild(errorMessageSpan);
     } catch (error) {
       console.error("Error during user login:", error.message);
     }
