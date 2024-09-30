@@ -1,18 +1,18 @@
-let galleryData = []; // Variable globale pour stocker les données des projets
-// Script pour récupérer et afficher dynamiquement les projets dans la galerie.
-// Utilise l'API pour obtenir les données des projets et les affiche à l'aide d'éléments HTML dans la page.
+let galleryData = []; // Variable globale pour stocker les données des projets récupérées depuis l'API
+
+// Fonction asynchrone pour récupérer les données des projets à partir de l'API et les afficher dans la galerie
 async function fetchGalleryData() {
   const worksApiUrl = "http://localhost:5678/api/works";
+
   try {
     const response = await fetch(worksApiUrl);
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
     }
 
-    galleryData = await response.json(); // Stocke les données dans la variable globale
-    console.log(galleryData);
+    galleryData = await response.json(); // Convertit en JSON et stocke les données dans la variable globale
 
-    displayProjects(galleryData); // Affiche tous les projets par défaut
+    displayProjects(galleryData); // Appelle la fonction pour afficher tous les projets récupérés dans la galerie
   } catch (error) {
     console.error("Error fetching gallery data:", error.message);
   }
@@ -22,7 +22,7 @@ fetchGalleryData();
 // Fonction pour afficher les projets dans la galerie
 function displayProjects(projects) {
   const galleryDivElement = document.querySelector(".gallery");
-  galleryDivElement.innerHTML = ""; // Efface le contenu existant
+  galleryDivElement.innerHTML = ""; // Efface le contenu existant pour éviter les duplications lors de l'affichage
 
   projects.forEach((project) => {
     const worksFigElement = createGalleryElement(project);
@@ -30,7 +30,7 @@ function displayProjects(projects) {
   });
 }
 
-// Crée l'élément HTML "figure" pour afficher un projet dans la galerie
+// Fonction qui crée un élément HTML "figure" pour afficher un projet dans la galerie
 function createGalleryElement(project) {
   const worksFigElement = document.createElement("figure");
   worksFigElement.id = project.id;
@@ -112,19 +112,21 @@ function setupCategoryFilters() {
       button.setAttribute("aria-pressed", "true");
       button.classList.add("active");
 
-      const btnId = parseInt(button.id, 10); // Convertir l'ID en nombre et plus en string
-      console.log(btnId);
+      const btnId = parseInt(button.id, 10); // Convertir l'ID en nombre
 
-      if (btnId === 0) {
-        displayProjects(galleryData);
-      } else {
-        const filteredProjects = galleryData.filter(
-          (project) => project.categoryId === btnId
-        );
-        displayProjects(filteredProjects);
-      }
+      // Utilise filterProjectsByCategory pour obtenir les projets filtrés
+      const filteredProjects = filterProjectsByCategory(btnId);
+      displayProjects(filteredProjects); // Affiche les projets filtrés
     });
   });
+}
+
+// Fonction pour filtrer les projets en fonction de l'ID de catégorie
+function filterProjectsByCategory(categoryId) {
+  if (categoryId !== 0) {
+    return galleryData.filter((project) => project.categoryId === categoryId);
+  }
+  return galleryData; // Retourne tous les projets si l'ID est 0
 }
 
 // Fonction d'authentification de connexion
@@ -138,10 +140,11 @@ function TokenVerification() {
 
     if (bannerEditElement) {
       bannerEditElement.style.clipPath = "inset(0 0 0 0)";
-
       btnLog.textContent = "logout";
+
       btnLog.addEventListener("click", () => {
         sessionStorage.removeItem("authToken");
+        window.location.reload(); // Rafraîchir la page après déconnexion
       });
 
       // Création et ajout du bouton "modifier"
@@ -151,7 +154,6 @@ function TokenVerification() {
       return;
     }
   }
-  console.log("Utilisateur non authentifié. Aucun token trouvé.");
 }
 TokenVerification();
 
