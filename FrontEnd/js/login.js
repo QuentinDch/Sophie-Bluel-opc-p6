@@ -61,5 +61,6 @@ function displayError() {
   const errorMessageSpan = document.getElementById("error-text");
 
   errorMessageDiv.style.display = "flex";
+  errorMessageDiv.setAttribute("aria-hidden", "false");
   errorMessageSpan.textContent = "L'e-mail ou le mot de passe est incorrect.";
 }
