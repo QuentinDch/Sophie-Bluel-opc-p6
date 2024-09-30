@@ -36,6 +36,14 @@
     <main>
       <section class="login-container">
         <h2>log in</h2>
+        <div
+          id="error-message"
+          class="error-message"
+          role="alert"
+          aria-live="polite"
+        >
+          <span id="error-text"></span>
+        </div>
         <form action="#" method="post" id="login-form">
           <label for="email">E-mail</label>
           <input type="email" name="email" id="email" required />

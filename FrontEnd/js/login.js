@@ -39,18 +39,6 @@ function setupFormHandler() {
     const emailInput = loginFormElement.querySelector("#email").value;
     const passwordInput = loginFormElement.querySelector("#password").value;
 
-    let errorMessageDiv = document.querySelector(".error-message");
-    if (!errorMessageDiv) {
-      errorMessageDiv = document.createElement("div");
-      errorMessageDiv.className = "error-message";
-      loginFormElement.parentNode.insertBefore(
-        errorMessageDiv,
-        loginFormElement
-      );
-    }
-
-    errorMessageDiv.innerHTML = "";
-
     // Appel loginUser avec les valeurs du formulaire
     try {
       const userData = await loginUser(emailInput, passwordInput);
@@ -59,9 +47,7 @@ function setupFormHandler() {
         return;
       }
 
-      const errorMessageSpan = document.createElement("span");
-      errorMessageSpan.textContent = "L'e-mail et le mot de passe sont requis.";
-      errorMessageDiv.appendChild(errorMessageSpan);
+      displayError();
     } catch (error) {
       console.error("Error during user login:", error.message);
     }
@@ -69,3 +55,11 @@ function setupFormHandler() {
 }
 
 setupFormHandler();
+
+function displayError() {
+  const errorMessageDiv = document.querySelector(".error-message");
+  const errorMessageSpan = document.getElementById("error-text");
+
+  errorMessageDiv.style.display = "flex";
+  errorMessageSpan.textContent = "L'e-mail ou le mot de passe est incorrect.";
+}

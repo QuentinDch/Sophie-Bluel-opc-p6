@@ -419,7 +419,7 @@ footer .footer-link {
   margin: 2em 0 1em 0;
   height: 50px;
   width: 500px;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   border: 1px solid #ff7c80;
