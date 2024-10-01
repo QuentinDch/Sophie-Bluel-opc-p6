@@ -164,6 +164,7 @@ function createEditButton() {
 
   const button = document.createElement("button");
   button.type = "button";
+  button.setAttribute("aria-label", "Modifier");
 
   const span = document.createElement("span");
   span.textContent = "modifier";
@@ -171,18 +172,19 @@ function createEditButton() {
   button.appendChild(span);
   btnContainer.appendChild(button);
 
-  button.addEventListener("click", openModal);
+  button.addEventListener("click", openEditModal);
 
   return btnContainer;
 }
 
-function openModal() {
+function openEditModal() {
   const modalElement = document.getElementById("modal");
   const modalContent = modalElement.querySelector("#homepage-edit1");
 
   modalElement.style.display = null;
   modalElement.setAttribute("aria-hidden", "false");
 
+  // Pour éviter la fermeture de la modale lorsque l'utilisateur clique à l'intérieur
   modalContent.addEventListener("click", (event) => event.stopPropagation());
 
   // Ajout des listeners de fermeture
@@ -231,7 +233,7 @@ function createGalleryModalElement(project) {
   const buttonModalElement = document.createElement("button");
   buttonModalElement.id = "deleteBtn";
   buttonModalElement.type = "button";
-  buttonModalElement.ariaLabel = "Supprimer un projet";
+  buttonModalElement.setAttribute("aria-label", "Supprimer un projet");
 
   figureModalElement.appendChild(imgModalElement);
   figureModalElement.appendChild(buttonModalElement);
@@ -244,24 +246,10 @@ function createGalleryModalElement(project) {
   return figureModalElement;
 }
 
-function addAddPictureListener() {
-  const btnAddPicture = document.getElementById("btn-add-picture");
-  btnAddPicture.addEventListener("click", () => {
-    const homepageEdit2 = document.getElementById("homepage-edit2");
-    const btnPrevModal = document.getElementById("btn-prev-modal");
-    homepageEdit2.style.clipPath = "inset(0 0 0 0)";
-    btnPrevModal.style.display = "flex";
-    btnPrevModal.addEventListener("click", () => {
-      homepageEdit2.style.clipPath = "inset(0 0 100% 0)";
-      btnPrevModal.style.display = "none";
-    });
-  });
-}
-
 // Fonction qui ouvre la modale et gère les boutons de confirmation et d'annulation
 function openDeleteModal(projectId, figureElement) {
-  const modal = document.getElementById("modal-delete");
   const overlay = document.getElementById("modal-overlay");
+  const modal = document.getElementById("modal-delete");
 
   overlay.style.display = "flex";
   overlay.setAttribute("aria-hidden", "false");
@@ -273,8 +261,8 @@ function openDeleteModal(projectId, figureElement) {
   cancelDeleteBtn.addEventListener("click", () => closeDeleteModal());
 
   const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
-  confirmDeleteBtn.addEventListener("click", () => {
-    deleteProject(figureElement, projectId);
+  confirmDeleteBtn.addEventListener("click", async () => {
+    await deleteProject(figureElement, projectId);
     closeDeleteModal();
   });
 }
@@ -292,30 +280,52 @@ function closeDeleteModal() {
 
 let authToken = sessionStorage.getItem("authToken");
 
-function deleteProject(figureElement, projectId) {
-  fetch(`http://localhost:5678/api/works/${projectId}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${authToken}`,
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        console.error(
-          `Erreur lors de la suppression du projet (code: ${response.status})`
-        );
-        return;
+async function deleteProject(figureElement, projectId) {
+  try {
+    const response = await fetch(
+      `http://localhost:5678/api/works/${projectId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
       }
+    );
 
-      // Mise à jour des données locales et de l'interface
-      galleryData = galleryData.filter((project) => project.id !== projectId);
-      displayProjects(galleryData); // Mets à jour l'affichage de la galerie
-      figureElement.remove(); // Supprime l'élément visuellement après confirmation
-    })
-    .catch((error) => {
-      console.error("Erreur lors de la requête:", error);
-    });
+    if (!response.ok) {
+      console.error(
+        `Erreur lors de la suppression du projet (code: ${response.status})`
+      );
+      return;
+    }
+
+    // Mise à jour des données locales et de l'interface
+    galleryData = galleryData.filter((project) => project.id !== projectId);
+    displayProjects(galleryData); // Mets à jour l'affichage de la galerie
+    figureElement.remove(); // Supprime l'élément visuellement après confirmation
+  } catch (error) {
+    console.error("Erreur lors de la requête:", error);
+  }
+}
+
+// Fonction pour naviguer dans la modale
+function addAddPictureListener() {
+  const btnAddPicture = document.getElementById("btn-add-picture");
+  const homepageEdit2 = document.getElementById("homepage-edit2");
+  const btnPrevModal = document.getElementById("btn-prev-modal");
+
+  btnAddPicture.addEventListener("click", () => {
+    homepageEdit2.style.clipPath = "inset(0 0 0 0)";
+    btnPrevModal.style.display = "flex";
+
+    btnPrevModal.addEventListener("click", closePicturePage);
+  });
+
+  function closePicturePage() {
+    homepageEdit2.style.clipPath = "inset(0 0 100% 0)";
+    btnPrevModal.style.display = "none";
+  }
 }
 
 // Fonction pour ajouter les catégories au select
@@ -327,6 +337,8 @@ function populateCategorySelect(categories) {
   const defaultOption = document.createElement("option");
   defaultOption.textContent = "";
   defaultOption.value = "";
+  defaultOption.selected = true; // Sélectionnée par défaut
+  defaultOption.disabled = true; // Ne peut pas être sélectionnée
   selectElement.appendChild(defaultOption);
 
   categories.forEach((category) => {
@@ -338,7 +350,9 @@ function populateCategorySelect(categories) {
 }
 
 // Déclenche le clic sur l'input file
-document.getElementById("uploadButton").addEventListener("click", () => {
+const fileUploadButton = document.getElementById("uploadButton");
+fileUploadButton.addEventListener("click", () => {
+  // simule un clic sur "fileInput"
   document.getElementById("fileInput").click();
 });
 
