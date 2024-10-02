@@ -356,80 +356,72 @@ fileUploadButton.addEventListener("click", () => {
   document.getElementById("fileInput").click();
 });
 
-// Aperçu du fichier image sélectionné
-const inputFile = document.getElementById("fileInput");
+// Prévisualisation de l'image
+const fileInput = document.getElementById("fileInput");
 const uploadButton = document.getElementById("uploadButton");
 
-// Ecouter les changements de l'input file à simplifier!!!!!!!!!!!!!!!!!à simplifier!!!!!!!!!!!!!!!!!à simplifier!!!!!!!!!!!!!!!!!
-inputFile.addEventListener("change", () => {
-  const file = inputFile.files[0];
+// Ecouter les changements de l'input file
+fileInput.addEventListener("change", () => {
+  const file = fileInput.files[0];
 
   if (file) {
-    const reader = new FileReader();
+    const imagePreviewWrapper = document.createElement("div");
+    imagePreviewWrapper.classList.add("image-preview-wrapper");
 
-    reader.onload = function (e) {
-      const previewWrapper = document.createElement("div");
-      previewWrapper.classList.add("image-preview-wrapper");
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    img.alt = "Aperçu de l'image téléchargée";
+    imagePreviewWrapper.appendChild(img);
+    // Insère le conteneur d'image après le bouton d'upload
+    uploadButton.after(imagePreviewWrapper);
 
-      const img = document.createElement("img");
-      img.src = e.target.result;
-      img.alt = "Aperçu de l'image téléchargée";
+    // Cache la div et ses éléments après la prévisualisation
+    const iconWrapper = document.querySelector(".icon-wrapper");
+    if (iconWrapper) {
+      iconWrapper.style.display = "none";
+    }
 
-      previewWrapper.appendChild(img);
+    if (uploadButton) {
+      uploadButton.style.display = "none";
+    }
 
-      // Ajout du bouton "changer de photo"
-      const changeButton = document.createElement("button");
-      changeButton.classList.add("change-btn");
-      changeButton.type = "button";
-      changeButton.title = "Modifier le fichier téléchargé";
-      previewWrapper.appendChild(changeButton);
+    const formSpans = document.querySelectorAll(".form-upload span");
+    formSpans.forEach((span) => {
+      span.style.display = "none";
+    });
 
-      // Insère le conteneur d'image après le bouton d'upload à simplifier!!!!!!!!!!!!!!!!!à simplifier!!!!!!!!!!!!!!!!!
-      uploadButton.parentNode.insertBefore(
-        previewWrapper,
-        uploadButton.nextSibling
-      ); //à simplifier!!!!!!!!!!!!!!!!!à simplifier!!!!!!!!!!!!!!!!!à simplifier!!!!!!!!!!!!!!!!!à simplifier!!!!!!!!!!!!!!!!!
+    // Ajout et récupération du bouton + Event
+    const changeButton = createChangePhotoButton(imagePreviewWrapper);
 
-      // Cache la div et ses éléments après la prévisualisation
-      const iconWrapper = document.querySelector(".icon-wrapper");
+    changeButton.addEventListener("click", () => {
+      imagePreviewWrapper.remove();
+      fileInput.value = "";
+
       if (iconWrapper) {
-        iconWrapper.style.display = "none";
+        iconWrapper.style.display = "block";
       }
-
-      // Cache le button dans le formulaire
       if (uploadButton) {
-        uploadButton.style.display = "none";
+        uploadButton.style.display = "block";
       }
-
-      // Cache les spans dans le formulaire
-      const formSpans = document.querySelectorAll(".form-upload span");
       formSpans.forEach((span) => {
-        span.style.display = "none";
+        span.style.display = "inline";
       });
-
-      // Gestion du clic sur "Changer de photo"
-      changeButton.addEventListener("click", () => {
-        previewWrapper.remove();
-        inputFile.value = "";
-
-        // Réaffiche les éléments cachés
-        if (iconWrapper) {
-          iconWrapper.style.display = "block";
-        }
-        if (uploadButton) {
-          uploadButton.style.display = "block";
-        }
-        formSpans.forEach((span) => {
-          span.style.display = "inline";
-        });
-        // Déclenche à nouveau le clic sur l'input file pour rechercher un nouveau fichier
-        inputFile.click();
-      });
-    };
-
-    reader.readAsDataURL(file);
+      // Déclenche à nouveau le clic sur l'input file pour rechercher un nouveau fichier
+      fileInput.click();
+    });
   }
 });
+
+// Fonction pour créer le bouton "Changer de photo" et le retourner
+function createChangePhotoButton(imagePreviewWrapper) {
+  const changeButton = document.createElement("button");
+  changeButton.classList.add("change-btn");
+  changeButton.type = "button";
+  changeButton.title = "Modifier le fichier téléchargé";
+  changeButton.setAttribute("aria-label", "Changer de photo");
+  imagePreviewWrapper.appendChild(changeButton);
+  return changeButton;
+}
 
 // Gestion du POST pour ajouter un projet
 const postForm = document.getElementById("post-form");
@@ -437,19 +429,29 @@ const postForm = document.getElementById("post-form");
 postForm.addEventListener("submit", async (e) => {
   e.preventDefault(); // Empêche l'envoi du formulaire par défaut
 
-  const formData = new FormData(postForm);
+  // Vérification des champs obligatoires
+  const fileInput = document.getElementById("fileInput");
+  const categorySelect = document.getElementById("category");
 
-  formData.append("image", inputFile.files[0]);
+  if (!fileInput.files.length || !categorySelect.value) {
+    displayError(); // Affiche le message d'erreur si des champs sont vides
+    return; // Sort de la fonction pour ne pas continuer l'envoi du formulaire
+  }
+
+  const formData = new FormData(postForm);
+  formData.append("image", fileInput.files[0]); // Ajoute l'image au FormData
 
   try {
+    // Envoi de la requête POST avec fetch
     const response = await fetch("http://localhost:5678/api/works", {
       method: "POST",
       body: formData,
       headers: {
-        Authorization: `Bearer ${authToken}`,
+        Authorization: `Bearer ${authToken}`, // Ajoute l'authentification
       },
     });
 
+    // Vérifie si la réponse est correcte
     if (!response.ok) {
       throw new Error(`Erreur HTTP : ${response.status}`);
     }
@@ -458,30 +460,8 @@ postForm.addEventListener("submit", async (e) => {
     const data = await response.json();
     console.log("Projet ajouté avec succès", data);
 
-    // Ajoute le nouveau projet à la galerie
-
     // Réinitialiser le formulaire après l'ajout
-    postForm.reset();
-
-    // Supprime l'aperçu de l'image si nécessaire
-    const previewWrapper = document.querySelector(".image-preview-wrapper");
-    if (previewWrapper) {
-      previewWrapper.remove();
-    }
-
-    // Réaffiche l'interface d'origine
-    const iconWrapper = document.querySelector(".icon-wrapper");
-    if (iconWrapper) {
-      iconWrapper.style.display = "block";
-    }
-    const uploadButton = document.getElementById("uploadButton");
-    if (uploadButton) {
-      uploadButton.style.display = "block";
-    }
-    const formSpans = document.querySelectorAll(".form-upload span");
-    formSpans.forEach((span) => {
-      span.style.display = "inline";
-    });
+    resetForm();
 
     // Ferme la modale
     const modalElement = document.getElementById("modal");
@@ -494,3 +474,47 @@ postForm.addEventListener("submit", async (e) => {
     console.error("Erreur lors de l'ajout du projet :", error);
   }
 });
+
+// Fonction pour réinitialiser le formulaire et afficher l'interface d'origine
+function resetForm() {
+  postForm.reset(); // Réinitialise le formulaire
+
+  // Supprime l'aperçu de l'image si nécessaire
+  const imagePreviewWrapper = document.querySelector(".image-preview-wrapper");
+  if (imagePreviewWrapper) {
+    imagePreviewWrapper.remove();
+  }
+
+  // Réaffiche l'interface d'origine
+  const iconWrapper = document.querySelector(".icon-wrapper");
+  if (iconWrapper) {
+    iconWrapper.style.display = "block";
+  }
+
+  const uploadButton = document.getElementById("uploadButton");
+  if (uploadButton) {
+    uploadButton.style.display = "block";
+  }
+
+  const formSpans = document.querySelectorAll(".form-upload span");
+  formSpans.forEach((span) => {
+    span.style.display = "inline";
+  });
+
+  const errorMessageDiv = document.querySelector(".missing-error-message");
+  if (errorMessageDiv) {
+    errorMessageDiv.style.display = "none";
+    errorMessageDiv.setAttribute("aria-hidden", "true");
+  }
+}
+
+// Fonction pour afficher un message d'erreur
+function displayError() {
+  const errorMessageDiv = document.querySelector(".missing-error-message");
+  const errorMessageSpan = document.querySelector(".missing-error-text");
+
+  errorMessageDiv.style.display = "flex";
+  errorMessageDiv.setAttribute("aria-hidden", "false");
+  errorMessageSpan.textContent =
+    "Tous les champs doivent être remplis pour soumettre un projet.";
+}

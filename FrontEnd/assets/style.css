@@ -763,6 +763,10 @@ footer .footer-link {
   color: #306685;
 }
 
+#post-form > .button-wrapper {
+  padding-bottom: 15px !important;
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -798,23 +802,6 @@ footer .footer-link {
 .text-delete-wrapper {
   padding: 20px 20px 12.5px 20px;
   border-bottom: 1px solid rgb(0, 0, 0, 0.09);
-}
-
-.error-message2 {
-  height: 40px;
-  max-width: 420px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #ff7c80;
-  background-color: #fde4e4;
-}
-
-.error-message2 span {
-  color: #c8030d;
-  font-size: 12px;
-  font-weight: bold;
-  text-decoration: none;
 }
 
 .button-wrapper {
@@ -896,4 +883,16 @@ footer .footer-link {
   display: block;
   content: "\f044";
   font-family: "Font Awesome 6 Free";
+}
+
+.missing-error-message {
+  display: none;
+  margin: 0 auto;
+}
+
+.missing-error-message span {
+  color: #c8030d;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
 }
