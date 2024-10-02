@@ -2,6 +2,8 @@
 
 Sixième projet du parcours **"Intégrateur web"** chez OpenClassroom. <br> L'objectif est de créez une page web dynamique avec JavaScript.
 
+![Image de présentation du projet](https://github.com/user-attachments/assets/29f71244-9a53-462c-b649-67123f101638)
+
 ## Objectifs du Projet
 
 - **Manipuler le DOM avec Javascript** : Modifier dynamiquement la page web en créant, supprimant et modifiant des éléments HTML.
@@ -33,13 +35,21 @@ Sixième projet du parcours **"Intégrateur web"** chez OpenClassroom. <br> L'ob
    ```
 
 2. **Installer les dépendances** : Accédez au dossier du backend et installez les dépendances.
+
+```bash
    cd backend
    npm install
 
-3. **Lancer le Backend** : Démarrez le serveur backend.
+```
+
+4. **Lancer le Backend** : Démarrez le serveur backend.
+
+```bash
    npm start
 
-4. **Ouvrir le Frontend** : Ouvrez le dossier du frontend dans une autre instance de VSCode pour éviter les conflits. Ouvrez le fichier index.html dans votre navigateur.
+```
+
+6. **Ouvrir le Frontend** : Ouvrez le dossier du frontend dans une autre instance de VSCode pour éviter les conflits. Ouvrez le fichier index.html dans votre navigateur.
 
 ## Points à noter
 
