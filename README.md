@@ -28,11 +28,11 @@ Sixième projet du parcours **"Intégrateur web"** chez OpenClassroom. <br> L'ob
 
 1. **Cloner le Dépôt** : Clonez le dépôt GitHub sur votre machine locale.
 
-   ```bash
+```bash
    git clone https://github.com/QuentinDch/Sophie-Bluel-opc-p6.git
    cd portfolio-architecte-sophie-bluel-project
 
-   ```
+```
 
 2. **Installer les dépendances** : Accédez au dossier du backend et installez les dépendances.
 

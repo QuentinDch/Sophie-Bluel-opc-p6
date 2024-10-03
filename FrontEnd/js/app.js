@@ -58,7 +58,6 @@ async function fetchCategoriesGalleryData() {
     }
 
     const categoriesData = await response.json();
-    console.log(categoriesData);
 
     // Appelle la fonction pour ajouter les catégories dans le select
     populateCategorySelect(categoriesData);
@@ -431,9 +430,10 @@ postForm.addEventListener("submit", async (e) => {
 
   // Vérification des champs obligatoires
   const fileInput = document.getElementById("fileInput");
+  const titleInput = document.getElementById("title");
   const categorySelect = document.getElementById("category");
 
-  if (!fileInput.files.length || !categorySelect.value) {
+  if (!fileInput.files.length || !categorySelect.value || !titleInput.value) {
     displayError(); // Affiche le message d'erreur si des champs sont vides
     return; // Sort de la fonction pour ne pas continuer l'envoi du formulaire
   }
