@@ -274,7 +274,6 @@ li:hover {
   margin: 0 auto;
   gap: 0.5rem;
   padding-top: 2rem;
-  padding-bottom: 3rem;
 }
 
 .categories__items {
@@ -319,6 +318,7 @@ li:hover {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-row-gap: 40px;
+  margin-top: 4rem;
 }
 
 @media (max-width: 1024px) {

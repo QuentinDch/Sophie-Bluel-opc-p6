@@ -136,11 +136,14 @@ function TokenVerification() {
     const bannerEditElement = document.querySelector(".banner-edit");
     const btnLog = document.getElementById("btnLog");
     const portfolio = document.getElementById("portfolio");
+    const categoriesElement = document.querySelector(".categories");
 
     if (bannerEditElement) {
       bannerEditElement.style.clipPath = "inset(0 0 0 0)";
       btnLog.textContent = "logout";
-
+      if (categoriesElement) {
+        categoriesElement.style.display = "none";
+      }
       btnLog.addEventListener("click", () => {
         sessionStorage.removeItem("authToken");
         window.location.reload(); // Rafraîchir la page après déconnexion
@@ -371,6 +374,21 @@ fileInput.addEventListener("change", () => {
   const file = fileInput.files[0];
 
   if (file) {
+    // Vérification du type de fichier
+    const validTypes = ["image/jpeg", "image/png"];
+    if (!validTypes.includes(file.type)) {
+      displayError("Le fichier doit être une image au format JPG ou PNG.");
+      fileInput.value = "";
+      return;
+    }
+    // Vérification de la taille max du fichier
+    const maxSize = 4 * 1024 * 1024;
+    if (file.size > maxSize) {
+      displayError("Le fichier ne doit pas dépasser 4 Mo.");
+      fileInput.value = "";
+      return;
+    }
+
     const imagePreviewWrapper = document.createElement("div");
     imagePreviewWrapper.classList.add("image-preview-wrapper");
 
@@ -516,12 +534,12 @@ function resetForm() {
 }
 
 // Fonction pour afficher un message d'erreur
-function displayError() {
+function displayError(message) {
   const errorMessageDiv = document.querySelector(".missing-error-message");
   const errorMessageSpan = document.querySelector(".missing-error-text");
 
   errorMessageDiv.style.display = "flex";
   errorMessageDiv.setAttribute("aria-hidden", "false");
   errorMessageSpan.textContent =
-    "Tous les champs doivent être remplis pour soumettre un projet.";
+    message || "Tous les champs doivent être remplis pour soumettre un projet.";
 }
