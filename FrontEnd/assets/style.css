@@ -506,8 +506,8 @@ footer .footer-link {
 .btn-container {
   position: absolute;
   top: 0;
-  right: 30%;
-  transform: translateY(25%);
+  right: 31%;
+  transform: translateY(30%);
 }
 
 .btn-container button {

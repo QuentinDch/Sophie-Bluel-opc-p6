@@ -319,11 +319,18 @@ function addAddPictureListener() {
     btnPrevModal.style.display = "flex";
 
     btnPrevModal.addEventListener("click", closePicturePage);
+    btnPrevModal.addEventListener("click", removeDisplayError);
   });
 
   function closePicturePage() {
     homepageEdit2.style.clipPath = "inset(0 0 100% 0)";
     btnPrevModal.style.display = "none";
+  }
+
+  function removeDisplayError() {
+    const errorMessageDiv = document.querySelector(".missing-error-message");
+    errorMessageDiv.style.display = "none";
+    errorMessageDiv.setAttribute("aria-hidden", "true");
   }
 }
 
